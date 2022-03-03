@@ -58,7 +58,7 @@ const reporterSchema = new mongoose.Schema({
         validate(value){
             var reg = new RegExp("^(01)[0-2,5]{1}[0-9]{8}$")
             if(!reg.test(value)){
-                throw new Error('invalid phone number')
+                throw new Error('invalid phone number .. ')
             }
         }
     },
@@ -118,6 +118,15 @@ reporterSchema.methods.generateToken = async function (){
     return token
 }
 
+
+reporterSchema.methods.toJSON = function () {
+    const reporter = this
+    const reporterObject = reporter.toObject()
+
+    delete reporter.password
+    delete reporter.tokens
+    return reporterObject
+}
 
 const Reporter = mongoose.model('reporter',reporterSchema)
 module.exports = Reporter

@@ -39,5 +39,36 @@ router.get('/news',auth.reporterAuth,async(req,res)=>{
     }
 })
 
+router.delete('/news/:id',auth.reporterAuth,async(req,res)=>{
+    try{
+        const _id = req.params.id
+        const news = await News.findOneAndDelete({_id,author:req.reporter._id})
+        if(!news){
+           return res.status(404).send('Not found')
+        }
+        res.status(200).send(news)
+    }
+    catch(e){
+        res.status(500).send(e)
+    }
+})
+
+router.patch('/news/:id',auth.reporterAuth,async(req,res)=>{
+    try{
+        const _id = req.params.id
+        const news = await News.findOneAndUpdate({_id,author:req.reporter._id},req.body,{
+            new:true,
+            runValidators:true
+        })
+        if(!news){
+           return res.status(404).send('Not found')
+        }
+        res.status(200).send(news)
+    }
+    catch(e){
+        res.status(500).send(e)
+    }
+})
+
 
 module.exports=router

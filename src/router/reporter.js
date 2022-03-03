@@ -28,7 +28,7 @@ router.post('/login',async(req,res)=>{
         res.status(200).send({reporter,token})
     }
     catch(e){
-        res.status(500).send(e.message)
+        res.status(500).send(e)
     }
 })
 
@@ -65,7 +65,7 @@ router.delete('/profile',auth.reporterAuth,async(req,res)=>{
         res.status(200).send(reporter)
     }
     catch(e){
-        res.status(404).send(e.error)
+        res.status(404).send(e)
     }
 })
 
@@ -103,7 +103,7 @@ router.delete('/logout',auth.reporterAuth,async(req,res)=>{
             return el !== req.reporter.tokens
         })
         await req.reporter.save()
-        res.send('logout')
+        res.send()
     }
     catch(e){
         res.send(e)
